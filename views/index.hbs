@@ -1,8 +1,9 @@
-<h1>{{title}}</h1>
 <div id='lightning'/>
 
 <!-- JS import from auto-generated snippet -->
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<!-- Lightning out import -->
+<script src="https://wheelsup--silverline.lightning.force.com/lightning/lightning.out.js"></script>
 
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
@@ -14,9 +15,33 @@
 	}
 </style>
 
-<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
+	var userId = 'Client to populate',
+		Token = 'Client to populate',
+		MemberId = 'Client to populate';
+
+	// Lightning out code
+	$Lightning.use("embeddedService:sidebarApp",
+		function() {
+
+		$Lightning.createComponent("c:PreChatFormHelp",
+				{ "userId" : userId , "Token" : Token , "MemberId" : MemberId },
+				"lightning",
+				function(cmp) {
+					initBot();
+				}
+			);
+		},
+		'https://silverline-wu.cs97.force.com'
+	);
+
+	// Auto-generated function
 	var initESW = function(gslbBaseURL) {
+
+		setCustomBotProperties();
+
+		// Auto-generated code for setting properties
+
 		embedded_svc.settings.displayHelpButton = true; //Or false
 		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
@@ -38,7 +63,7 @@
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
-		embedded_svc.init(
+			embedded_svc.init(
 			'https://wheelsup--silverline.my.salesforce.com',
 			'https://silverline-wu.cs97.force.com',
 			gslbBaseURL,
@@ -55,15 +80,18 @@
 		);
 	};
 
-	if (!window.embedded_svc) {
-		var s = document.createElement('script');
-		s.setAttribute('src', 'https://wheelsup--silverline.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-		s.onload = function() {
-			initESW(null);
-		};
-		document.body.appendChild(s);
-	} else {
-		initESW('https://service.force.com');
+	var initBot = function() {
+		
+		if (!window.embedded_svc) {
+			var s = document.createElement('script');
+			s.setAttribute('src', 'https://wheelsup--silverline.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+			s.onload = function() {
+				initESW(null);
+			};
+			document.body.appendChild(s);
+		} else {
+			initESW('https://service.force.com');
+		}
 	}
 
     // Function for configuring custom properties in the bot
@@ -73,6 +101,11 @@
 		  "label": "Member Id",
 		  "displayToAgent": true,
 		  "transcriptFields": ["Member_Id__c"]
+		  },
+		  {
+		  "label": "Token",
+		  "displayToAgent": true,
+		  "transcriptFields": ["Token__c"]
 		  },
 		   {
 		  "label": "Fly User Id",
@@ -90,10 +123,22 @@
 					{
 						"doCreate":true,
 						"doFind":true,
-						"fieldName":"Fly_User_Id__c",
+						"fieldName":"Contact_Id__c",
 						"isExactMatch" : true,
-						"label":"Fly User Id"
-					}, {
+						"label":"Contact Id"
+					},{
+						"doCreate":true,
+						"doFind":true,
+						"fieldName":"Lead_Id__c",
+						"isExactMatch" : true,
+						"label":"Lead Id"
+					},{
+						"doCreate":true,
+						"doFind":true,
+						"fieldName":"Member_Type__c",
+						"isExactMatch" : true,
+						"label":"Member Type"
+					},{
 						"doCreate": true,
 						"doFind": true,
 						"fieldName": "LastName",
